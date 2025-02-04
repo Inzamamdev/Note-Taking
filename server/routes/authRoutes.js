@@ -13,6 +13,7 @@ router.post("/signup", validateSignup, signupController);
 router.post("/login", validateLogin, loginController);
 router.get("/user", authenticateToken, (req, res) => {
   const user = req.user;
-  res.json({ name: user.name });
+
+  res.json({ name: user.name, id: user._id });
 });
 export default router;

@@ -1,8 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import router from "./routes/authRoutes.js";
+import notesRouter from "./routes/noteRoutes.js";
 import connectDb from "./database.js";
 import cors from "cors";
+
 dotenv.config();
 
 const app = express();
@@ -22,6 +24,7 @@ connectDb()
   .catch((err) => console.log("Failed to connect to MongoDB:", err));
 
 app.use("/api/auth", router);
+app.use("/api/notes", notesRouter);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the backend API!");

@@ -2,23 +2,27 @@ import { useEffect, useState } from "react";
 import Sidebar from "../component/SIdebar";
 import { IoMdSearch } from "react-icons/io";
 import { MdOutlineSort } from "react-icons/md";
+import NoteInput from "../component/NoteInput";
 
 export default function Dashboard() {
-  const [userName, setUserData] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/auth/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/user`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const data = await response.json();
-      console.log(data);
+      setUserData(data);
       if (response.ok) {
-        setUserData(data.name);
+        setUserData(data);
       } else {
         console.error("Error fetching user data");
       }
@@ -26,7 +30,7 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
-  console.log(userName);
+
   return (
     <div className="h-screen flex mx-5   ">
       <Sidebar />
@@ -50,6 +54,10 @@ export default function Dashboard() {
             <MdOutlineSort fontSize={20} />
             <p className="pl-1">Sort</p>
           </button>
+        </div>
+
+        <div>
+          <NoteInput userId={userData?.id} />
         </div>
       </div>
     </div>
