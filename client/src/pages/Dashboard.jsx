@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import Sidebar from "../component/SIdebar";
+import { IoMdSearch } from "react-icons/io";
+import { MdOutlineSort } from "react-icons/md";
 
 export default function Dashboard() {
   const [userName, setUserData] = useState(null);
@@ -23,15 +26,31 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
-
+  console.log(userName);
   return (
-    <div className=" bg-amber-200 mx-5">
-      <div className="flex">
-        <div className="border-2 border-black">
-          <input type="text" className="border-2 border-black w-full" />
-        </div>
+    <div className="h-screen flex mx-5   ">
+      <Sidebar />
+      <div className="mt-8 ml-7 w-full mx-2">
+        <div className="flex items-center  rounded-2xl justify-between gap-4">
+          <div className=" relative w-full">
+            <IoMdSearch
+              className="absolute top-2 left-3 text-gray-200"
+              fontSize={20}
+            />
+            <input
+              type="text"
+              name=""
+              id=""
+              className=" w-full border-gray-200 pl-10 py-1 border-2  rounded-2xl focus:outline-none placeholder-gray-400"
+              placeholder="Search"
+            />
+          </div>
 
-        <button>Sort</button>
+          <button className="flex items-center bg-gray-100 px-3 py-1 rounded-2xl ">
+            <MdOutlineSort fontSize={20} />
+            <p className="pl-1">Sort</p>
+          </button>
+        </div>
       </div>
     </div>
   );

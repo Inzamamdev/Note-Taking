@@ -5,7 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./component/ProtectedRoutes";
 function App() {
   return (
-    <>
+    <div>
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<Signup />} />
@@ -15,7 +15,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 
