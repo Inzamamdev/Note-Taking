@@ -6,11 +6,14 @@ import NoteCard from "./NoteCard";
 import RecordControls from "./RecordControls";
 import { startRecording, stopRecording } from "../utils/noteUtils";
 import { createNotes } from "../utils/createNotes";
+import { fetchNotes } from "../utils/getAllNotes";
+import { deleteNote } from "../utils/deleteNote";
+import { renameNote } from "../utils/renameNote";
 export default function NoteInput({ userId }) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcribedText, setTranscribedText] = useState("");
   const [speechError, setSpeechError] = useState("");
-
+  const [notes, setNotes] = useState([]);
   const handleRecording = () => {
     if (!isRecording) {
       startRecording(setIsRecording, setTranscribedText, setSpeechError);
@@ -20,17 +23,55 @@ export default function NoteInput({ userId }) {
     console.log("recording");
   };
   useEffect(() => {
-    if (transcribedText && !isRecording) {
-      console.log("Saving note:", transcribedText);
-      createNotes(transcribedText, userId);
-    }
-  }, [transcribedText, isRecording, userId]);
-  console.log(userId);
+    fetchUserNotes();
+  }, [transcribedText, userId]);
 
+  const fetchUserNotes = async () => {
+    const fetchedNotes = await fetchNotes(userId);
+    setNotes(fetchedNotes);
+  };
+
+  useEffect(() => {
+    if (transcribedText && !isRecording) {
+      createNotes(transcribedText, userId).then(() => fetchUserNotes());
+      //   setTranscribedText("");
+    }
+  }, [transcribedText, isRecording]);
+
+  const handleDeleteNote = async (noteId) => {
+    try {
+      await deleteNote(noteId);
+      setNotes(notes.filter((note) => note._id !== noteId)); // Remove from UI
+    } catch (error) {
+      console.error("Error deleting note:", error);
+    }
+  };
+
+  const handleRenameNote = async (noteId, newHeading) => {
+    try {
+      await renameNote(noteId, newHeading);
+      setNotes(
+        notes.map((note) =>
+          note._id === noteId ? { ...note, heading: newHeading } : note
+        )
+      );
+    } catch (error) {
+      console.error("Error updating note:", error);
+    }
+  };
+  console.log(userId);
+  console.log(notes);
   return (
     <>
-      <div className="mb-96">
-        <NoteCard />
+      <div className="mb-40 flex gap-2 mt-5">
+        {notes?.map((note) => (
+          <NoteCard
+            key={note._id}
+            note={note}
+            onDelete={handleDeleteNote}
+            onRename={handleRenameNote}
+          />
+        ))}
       </div>
       <div className="w-full max-w-3xl mx-auto">
         <div className="flex items-center p-2 rounded-4xl shadow-md border">

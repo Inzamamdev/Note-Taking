@@ -57,7 +57,7 @@ export default function Dashboard() {
         </div>
 
         <div>
-          <NoteInput userId={userData?.id} />
+          <NoteInput userId={userData && userData?.id} />
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ export const createNotes = async (transcribedText, userId) => {
     );
 
     const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Error saving note:", error);
   }
