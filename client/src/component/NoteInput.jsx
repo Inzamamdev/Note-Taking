@@ -60,7 +60,7 @@ export default function NoteInput({ userId }) {
     }
   };
   console.log(userId);
-  console.log(notes);
+  console.log(transcribedText);
   return (
     <>
       <div className="mb-40 flex gap-2 mt-5">
@@ -70,6 +70,8 @@ export default function NoteInput({ userId }) {
             note={note}
             onDelete={handleDeleteNote}
             onRename={handleRenameNote}
+            setNotes={setNotes}
+            notes={notes}
           />
         ))}
       </div>

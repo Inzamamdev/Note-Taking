@@ -8,7 +8,7 @@ const noteSchema = new mongoose.Schema({
     required: [true, "Transcribed text cannot be empty"],
     trim: true, // Optional: Removes leading and trailing spaces
   },
-
+  images: [{ type: String }],
   createdAt: { type: Date, default: Date.now },
 });
 
