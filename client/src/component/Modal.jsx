@@ -19,7 +19,7 @@ export default function Modal({
   const [editedText, setEditedText] = useState(note.transcribedText);
   const [copySuccess, setCopySuccess] = useState(false);
 
-  console.log(note._id);
+  console.log(note);
   const handleSave = async (noteId, editedText) => {
     try {
       await editNote(noteId, editedText);

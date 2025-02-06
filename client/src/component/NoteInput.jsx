@@ -34,7 +34,6 @@ export default function NoteInput({ userId }) {
   useEffect(() => {
     if (transcribedText && !isRecording) {
       createNotes(transcribedText, userId).then(() => fetchUserNotes());
-      //   setTranscribedText("");
     }
   }, [transcribedText, isRecording]);
 
@@ -59,8 +58,7 @@ export default function NoteInput({ userId }) {
       console.error("Error updating note:", error);
     }
   };
-  console.log(userId);
-  console.log(transcribedText);
+
   return (
     <>
       <div className="mb-40 flex gap-2 mt-5">

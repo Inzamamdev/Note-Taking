@@ -106,10 +106,21 @@ export const uploadNoteImage = async (req, res) => {
 
     res.status(200).json({
       message: "Image uploaded and saved successfully",
-      imageUrl: result.secure_url,
     });
   } catch (error) {
     console.error("Error uploading image:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getNoteImages = async (req, res) => {
+  const { noteId } = req.params;
+
+  try {
+    const notes = await Note.findById(noteId);
+
+    res.status(200).json(notes.images);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

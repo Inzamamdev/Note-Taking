@@ -42,6 +42,7 @@ export default function NoteCard({
     }
     setIsRenaming(false);
   };
+  console.log(note.images);
   return (
     <>
       <div className="cursor-pointer ">
@@ -49,13 +50,13 @@ export default function NoteCard({
           className=" h-96 w-64  px-5 border-1 border-gray-200 rounded-3xl"
           onClick={() => setShowModal(true)}
         >
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between gap-36">
             <div>
               <p className="pt-5 text-xs text-gray-400">{formattedDate}</p>
               {isRenaming ? (
                 <input
                   type="text"
-                  className="w-full font-bold border p-1 rounded-md"
+                  className="w-full h-7 font-bold border p-1 rounded-md mb-5 line-clamp-2"
                   value={newHeading}
                   onChange={(e) => setNewHeading(e.target.value)}
                   onBlur={handleRename}
@@ -63,17 +64,19 @@ export default function NoteCard({
                   autoFocus
                 />
               ) : (
-                <h2 className="font-bold h-12">{note.heading}</h2>
+                <h2 className="font-bold h-12 ">{note.heading}</h2>
               )}
-              <p className="text-black text-xs font-light h-10">
+              <p className="text-black text-xs font-light h-24">
                 {note.transcribedText}
               </p>
-              <div className=" flex items-center bg-gray-200 text-xs max-w-13 justify-between">
-                <BsImageFill />
-                <p>{}Image</p>
-              </div>
+              {note.images.length > 0 && (
+                <div className=" flex items-center bg-gray-200 text-xs max-w-13 justify-between">
+                  <BsImageFill />
+                  <p>{note.images.length}Image</p>
+                </div>
+              )}
             </div>
-            <div className="flex  text-gray-300">
+            <div className="flex justify-end text-gray-300">
               {copySuccess && (
                 <p className="absolute top-1 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-600 text-sm px-3 py-1 rounded-md">
                   Copied!
