@@ -43,7 +43,6 @@ export default function NoteCard({
     setIsRenaming(false);
   };
 
-  console.log(new Date(note.createdAt).getTime());
   return (
     <>
       <div className="cursor-pointer ">
@@ -71,9 +70,14 @@ export default function NoteCard({
                 {note.transcribedText}
               </p>
               {note.images.length > 0 && (
-                <div className=" flex items-center bg-gray-200 text-xs max-w-13 justify-between">
-                  <BsImageFill />
-                  <p>{note.images.length}Image</p>
+                <div className=" flex items-center bg-gray-200 text-xs max-w-16 justify-between p-1">
+                  <span>
+                    <BsImageFill />
+                  </span>
+                  <p className="">
+                    <span className="font-semibold">{note.images.length}</span>
+                    Image
+                  </p>
                 </div>
               )}
             </div>

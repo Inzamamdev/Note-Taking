@@ -9,12 +9,13 @@ import { createNotes } from "../utils/createNotes";
 import { fetchNotes } from "../utils/getAllNotes";
 import { deleteNote } from "../utils/deleteNote";
 import { renameNote } from "../utils/renameNote";
-export default function NoteInput({ userId, search, isSort }) {
+export default function NoteInput({ userId, search, isSort, isFavourite }) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcribedText, setTranscribedText] = useState("");
   const [speechError, setSpeechError] = useState("");
   const [notes, setNotes] = useState([]);
   const [filteredNotes, setFilteredNotes] = useState([]);
+  const [input, setInput] = useState("");
   const handleRecording = () => {
     if (!isRecording) {
       startRecording(setIsRecording, setTranscribedText, setSpeechError);
@@ -56,8 +57,12 @@ export default function NoteInput({ userId, search, isSort }) {
       );
     }
 
+    if (isFavourite) {
+      updatedNotes = updatedNotes.filter((note) => note.isFavourite);
+    }
+
     setFilteredNotes(updatedNotes);
-  }, [search, isSort]);
+  }, [search, isSort, isFavourite]);
 
   const handleDeleteNote = async (noteId) => {
     try {
@@ -80,12 +85,15 @@ export default function NoteInput({ userId, search, isSort }) {
       console.error("Error updating note:", error);
     }
   };
-  console.log(search);
-  console.log(isSort);
-  console.log();
+
+  const handleSubmit = () => {
+    createNotes(input, userId).then(() => fetchUserNotes());
+    setInput("");
+  };
+
   return (
     <>
-      <div className="mb-40 flex gap-2 mt-5">
+      <div className="mb-40 flex flex-wrap gap-2 mt-5">
         {(filteredNotes.length > 0 ? filteredNotes : notes)?.map((note) => (
           <NoteCard
             key={note._id}
@@ -111,8 +119,15 @@ export default function NoteInput({ userId, search, isSort }) {
           </button>
           <input
             type="text"
-            placeholder=""
+            placeholder="Enter Note"
             className="flex-1 p-2 mx-3 border-none outline-none"
+            onChange={(e) => setInput(e.target.value)}
+            value={input}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSubmit();
+              }
+            }}
           />
           <div onClick={handleRecording}>
             <RecordControls isRecording={isRecording} />

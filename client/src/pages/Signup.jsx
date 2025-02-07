@@ -76,6 +76,7 @@ export default function Signup() {
         <button className="w-full bg-blue-500 text-white p-2 rounded">
           Sign Up
         </button>
+        <a href="/login">Already a User</a>
       </form>
     </div>
   );

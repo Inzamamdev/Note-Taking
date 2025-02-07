@@ -98,8 +98,7 @@ export const uploadNoteImage = async (req, res) => {
         )
         .end(req.file.buffer);
     });
-    console.log(result.secure_url);
-    console.log(note);
+
     note.images.push(result.secure_url);
 
     await note.save();
@@ -158,5 +157,20 @@ export const deleteImage = async (req, res) => {
   } catch (error) {
     console.error("Error deleting image:", error);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const setFavourite = async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.noteId);
+    if (!note) return res.status(404).json({ message: "Note not found" });
+
+    note.isFavourite = !note.isFavourite; // Toggle favorite status
+    await note.save();
+
+    res.json({ message: "Added to favourite", favourite: note.isFavourite });
+  } catch (error) {
+    console.error("Error updating favorite:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

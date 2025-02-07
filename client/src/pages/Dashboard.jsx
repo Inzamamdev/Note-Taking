@@ -8,6 +8,7 @@ export default function Dashboard() {
   const [userData, setUserData] = useState(null);
   const [search, setSearch] = useState("");
   const [isSort, setIsSort] = useState(false);
+  const [isFavourite, setIsFavourite] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
@@ -34,7 +35,11 @@ export default function Dashboard() {
 
   return (
     <div className="h-screen flex mx-5   ">
-      <Sidebar />
+      <Sidebar
+        isFavourite={isFavourite}
+        setIsFavourite={setIsFavourite}
+        profile={userData && userData?.name}
+      />
       <div className="mt-8 ml-7 w-full mx-2">
         <div className="flex items-center  rounded-2xl justify-between gap-4">
           <div className=" relative w-full">
@@ -67,6 +72,7 @@ export default function Dashboard() {
             userId={userData && userData?.id}
             search={search}
             isSort={isSort}
+            isFavourite={isFavourite}
           />
         </div>
       </div>

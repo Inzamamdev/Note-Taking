@@ -7,6 +7,7 @@ import { RiFileCopy2Line } from "react-icons/ri";
 import { editNote } from "../utils/editNote";
 import ImageUpload from "./ImageUpload";
 import TabMenu from "./TabMenu";
+import { use } from "react";
 export default function Modal({
   note,
   formattedDate,
@@ -19,7 +20,7 @@ export default function Modal({
   const [editedText, setEditedText] = useState(note.transcribedText);
   const [copySuccess, setCopySuccess] = useState(false);
   const [editTranscript, setEditTranscript] = useState(false);
-  console.log(note);
+
   const handleSave = async (noteId, editedText) => {
     try {
       await editNote(noteId, editedText);
@@ -41,6 +42,32 @@ export default function Modal({
       navigator.clipboard.writeText(note.transcribedText);
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
+    }
+  };
+
+  const toggleFavorite = async (noteId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/notes/favourite/${noteId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (!response.ok) throw new Error("Failed to update favorite");
+      const updateFavourite = await response.json();
+      console.log("favourite", updateFavourite.favourite);
+      setNotes(
+        notes.map((note) =>
+          note._id === noteId
+            ? { ...note, isFavourite: updateFavourite.favourite }
+            : note
+        )
+      );
+      console.log(response.message);
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
     }
   };
 
@@ -92,7 +119,12 @@ export default function Modal({
 
               <div className="flex items-center">
                 <span className="bg-gray-100 p-2 rounded-4xl">
-                  <FaStar className="cursor-pointer text-gray-300" />
+                  <FaStar
+                    className={`cursor-pointer ${
+                      note.isFavourite ? "text-yellow-300" : "text-gray-300"
+                    }`}
+                    onClick={() => toggleFavorite(note._id)}
+                  />
                 </span>
 
                 <button className="bg-gray-200 mx-3 py-1 px-3 rounded-4xl text-sm font-semibold">
@@ -148,7 +180,7 @@ export default function Modal({
               </button>
             </div>
 
-            <ImageUpload noteId={note._id} note={note} />
+            <ImageUpload noteId={note._id} note={note} setNotes={setNotes} />
           </div>
         </div>
       )}

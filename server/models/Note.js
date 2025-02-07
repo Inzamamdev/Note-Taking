@@ -9,6 +9,7 @@ const noteSchema = new mongoose.Schema({
     trim: true, // Optional: Removes leading and trailing spaces
   },
   images: [{ type: String }],
+  isFavourite: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
 });
 

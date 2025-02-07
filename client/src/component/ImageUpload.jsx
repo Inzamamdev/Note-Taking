@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { uploadImage } from "../utils/uploadImage";
 import { MdDelete } from "react-icons/md";
-export default function ImageUpload({ noteId, note }) {
+export default function ImageUpload({ noteId, note, setNotes }) {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -34,6 +34,13 @@ export default function ImageUpload({ noteId, note }) {
       try {
         const responseData = await uploadImage(selectedImage, noteId);
         setImages((prevImages) => [...prevImages, responseData.image]);
+        setNotes((prevNotes) =>
+          prevNotes.map((note) =>
+            note._id === noteId
+              ? { ...note, images: [...note.images, responseData.image] }
+              : note
+          )
+        );
         console.log("Image uploaded successfully:", responseData.message);
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -59,15 +66,19 @@ export default function ImageUpload({ noteId, note }) {
       }
 
       setImages((prevImages) => prevImages.filter((img) => img !== imageUrl));
+      setNotes((prevNotes) =>
+        prevNotes.map((note) =>
+          note._id === noteId
+            ? { ...note, images: note.images.filter((img) => img !== imageUrl) }
+            : note
+        )
+      );
       console.log("Image deleted successfully");
     } catch (error) {
       console.error("Error deleting image:", error);
     }
   };
 
-  console.log(images);
-  console.log(noteId);
-  console.log(note);
   return (
     <div className="">
       <div className="w-full h-40 overflow-scroll mt-10 ">

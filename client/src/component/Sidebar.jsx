@@ -4,7 +4,7 @@ import { FaNotesMedical } from "react-icons/fa";
 import { ImHome3 } from "react-icons/im";
 import { FaStar } from "react-icons/fa";
 
-export default function Sidebar() {
+export default function Sidebar({ isFavourite, setIsFavourite, profile }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -28,13 +28,16 @@ export default function Sidebar() {
                 <ImHome3 fontSize={22} />
                 <p className="ml-1.5 font-semibold">Home</p>
               </span>
-              <span className="flex items-center  px-2 py-1 rounded-2xl text-gray-300">
+              <span
+                className="flex items-center  px-2 py-1 rounded-2xl text-gray-300 cursor-pointer"
+                onClick={() => setIsFavourite(!isFavourite)}
+              >
                 <FaStar fontSize={22} />
                 <p className="ml-1.5 font-semibold">Favourites</p>
               </span>
             </div>
             <div>
-              <p className="text-center">Profile</p>
+              <p className="text-center">{profile}</p>
               <button
                 onClick={handleLogout}
                 className="bg-[#f5ebff] w-full py-2 text-[#6c32ab] rounded-2xl cursor-pointer"
