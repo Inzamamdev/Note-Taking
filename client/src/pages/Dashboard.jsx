@@ -67,7 +67,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div>
+        <div className="">
           <NoteInput
             userId={userData && userData?.id}
             search={search}
