@@ -106,6 +106,7 @@ export const uploadNoteImage = async (req, res) => {
 
     res.status(200).json({
       message: "Image uploaded and saved successfully",
+      image: result.secure_url,
     });
   } catch (error) {
     console.error("Error uploading image:", error);
@@ -122,5 +123,40 @@ export const getNoteImages = async (req, res) => {
     res.status(200).json(notes.images);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+export const deleteImage = async (req, res) => {
+  try {
+    const { noteId, imageUrl } = req.body;
+
+    if (!noteId || !imageUrl) {
+      return res.status(400).json({ error: "Missing noteId or imageUrl" });
+    }
+
+    // Extract public_id from Cloudinary image URL
+    const publicId = imageUrl.split("/").pop().split(".")[0];
+
+    // Delete image from Cloudinary
+    await cloudinary.uploader.destroy(publicId);
+
+    // Remove image from MongoDB
+    const updatedNote = await Note.findByIdAndUpdate(
+      noteId,
+      { $pull: { images: imageUrl } }, // Remove image URL from MongoDB
+      { new: true }
+    );
+
+    if (!updatedNote) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    res.status(200).json({
+      message: "Image deleted successfully",
+      images: updatedNote.images,
+    });
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    res.status(500).json({ error: "Server error" });
   }
 };

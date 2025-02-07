@@ -18,7 +18,7 @@ export default function Modal({
   const [isReadMore, setReadMore] = useState(false);
   const [editedText, setEditedText] = useState(note.transcribedText);
   const [copySuccess, setCopySuccess] = useState(false);
-
+  const [editTranscript, setEditTranscript] = useState(false);
   console.log(note);
   const handleSave = async (noteId, editedText) => {
     try {
@@ -46,13 +46,13 @@ export default function Modal({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/30 trasition-all duration-300 z-50">
-      {isReadMore ? (
+      {editTranscript ? (
         <div className={`${"h-[35rem] w-full mx-64"}  `}>
           <div className="bg-white p-6 rounded-lg shadow-lg h-full ">
             <div className="flex justify-between mb-4">
               <RxCross2
                 className="cursor-pointer"
-                onClick={() => setReadMore(false)}
+                onClick={() => setEditTranscript(false)}
               />
               <button
                 onClick={() => handleSave(note._id, editedText)}
@@ -118,7 +118,10 @@ export default function Modal({
             </h2>
             <p className="mb-5 text-sm text-gray-400">{formattedDate}</p>
             <TabMenu />
-            <div className="border-1 border-gray-200 rounded-2xl">
+            <div
+              className="border-1 border-gray-200 rounded-2xl cursor-pointer"
+              onClick={() => setEditTranscript(!editTranscript)}
+            >
               <div className="flex items-center justify-between ml-3 pt-2">
                 <h2 className="font-semibold">Transcript</h2>
                 <span
@@ -129,16 +132,23 @@ export default function Modal({
                   <p className="text-xs">Copy</p>
                 </span>
               </div>
-              <p className="mt-1 ml-3 mb-2">{note.transcribedText}</p>
+              <p className="mt-1 ml-3 mb-2">
+                {isReadMore
+                  ? note.transcribedText
+                  : note.transcribedText.slice(0, 100) + ".."}
+              </p>
               <button
                 className="ml-3 underline text-[#d6d6d6] text-sm font-bold mb-3 cursor-pointer"
-                onClick={() => setReadMore(!isReadMore)}
+                onClick={(e) => {
+                  setReadMore(!isReadMore);
+                  e.stopPropagation();
+                }}
               >
-                Read More
+                {isReadMore ? "Read Less" : "Read More"}
               </button>
             </div>
 
-            <ImageUpload noteId={note._id} />
+            <ImageUpload noteId={note._id} note={note} />
           </div>
         </div>
       )}

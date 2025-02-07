@@ -2,7 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { uploadImage } from "../utils/uploadImage";
-export default function ImageUpload({ noteId }) {
+import { MdDelete } from "react-icons/md";
+export default function ImageUpload({ noteId, note }) {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -12,6 +13,7 @@ export default function ImageUpload({ noteId }) {
           `${import.meta.env.VITE_API_URL}/api/notes/getall/images/${noteId}`
         );
         const data = await response.json();
+
         setImages(data);
       } catch (error) {
         console.error("Error fetching images:", error);
@@ -27,31 +29,61 @@ export default function ImageUpload({ noteId }) {
 
   const handleImageChange = async (e) => {
     const selectedImage = e.target.files[0];
-    setImages(selectedImage);
 
     if (selectedImage) {
       try {
         const responseData = await uploadImage(selectedImage, noteId);
-        console.log("Image uploaded successfully:", responseData);
-        // setImages(responseData);
+        setImages((prevImages) => [...prevImages, responseData.image]);
+        console.log("Image uploaded successfully:", responseData.message);
       } catch (error) {
         console.error("Error uploading image:", error);
       }
     }
   };
 
+  const handleDelete = async (imageUrl) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/notes/image`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ noteId, imageUrl }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete image");
+      }
+
+      setImages((prevImages) => prevImages.filter((img) => img !== imageUrl));
+      console.log("Image deleted successfully");
+    } catch (error) {
+      console.error("Error deleting image:", error);
+    }
+  };
+
   console.log(images);
   console.log(noteId);
+  console.log(note);
   return (
     <div className="">
       <div className="w-full h-40 overflow-scroll mt-10 ">
-        <div className="flex items-center">
+        <div className="flex items-center flex-wrap gap-4">
           {images?.map((image, index) => (
-            <div key={index} className=" border-1 border-gray-200 rounded-xl">
+            <div key={index} className="  rounded-xl relative ">
+              <MdDelete
+                className="absolute z-20 cursor-pointer ml-1 mt-1"
+                fontSize={10}
+                onClick={() => handleDelete(image)}
+              />
               <img
+                loading="lazy"
                 src={image}
                 alt=""
-                className="h-15 w-15 object-cover rounded-xl"
+                className="h-17 w-17 object-cover rounded-xl border-1 border-gray-200"
               />
             </div>
           ))}

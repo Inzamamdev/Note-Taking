@@ -6,7 +6,8 @@ import NoteInput from "../component/NoteInput";
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
-
+  const [search, setSearch] = useState("");
+  const [isSort, setIsSort] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
@@ -47,17 +48,26 @@ export default function Dashboard() {
               id=""
               className=" w-full border-gray-200 pl-10 py-1 border-2  rounded-2xl focus:outline-none placeholder-gray-400"
               placeholder="Search"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
             />
           </div>
 
-          <button className="flex items-center bg-gray-100 px-3 py-1 rounded-2xl ">
+          <button
+            className="flex items-center bg-gray-100 px-3 py-1 rounded-2xl cursor-pointer"
+            onClick={() => setIsSort(!isSort)}
+          >
             <MdOutlineSort fontSize={20} />
             <p className="pl-1">Sort</p>
           </button>
         </div>
 
         <div>
-          <NoteInput userId={userData && userData?.id} />
+          <NoteInput
+            userId={userData && userData?.id}
+            search={search}
+            isSort={isSort}
+          />
         </div>
       </div>
     </div>

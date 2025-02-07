@@ -42,7 +42,8 @@ export default function NoteCard({
     }
     setIsRenaming(false);
   };
-  console.log(note.images);
+
+  console.log(new Date(note.createdAt).getTime());
   return (
     <>
       <div className="cursor-pointer ">

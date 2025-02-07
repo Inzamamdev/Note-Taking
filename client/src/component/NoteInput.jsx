@@ -9,11 +9,12 @@ import { createNotes } from "../utils/createNotes";
 import { fetchNotes } from "../utils/getAllNotes";
 import { deleteNote } from "../utils/deleteNote";
 import { renameNote } from "../utils/renameNote";
-export default function NoteInput({ userId }) {
+export default function NoteInput({ userId, search, isSort }) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcribedText, setTranscribedText] = useState("");
   const [speechError, setSpeechError] = useState("");
   const [notes, setNotes] = useState([]);
+  const [filteredNotes, setFilteredNotes] = useState([]);
   const handleRecording = () => {
     if (!isRecording) {
       startRecording(setIsRecording, setTranscribedText, setSpeechError);
@@ -37,6 +38,27 @@ export default function NoteInput({ userId }) {
     }
   }, [transcribedText, isRecording]);
 
+  useEffect(() => {
+    let updatedNotes = [...notes];
+
+    if (search) {
+      updatedNotes = updatedNotes.filter(
+        (note) =>
+          note.heading.toLowerCase().includes(search.toLowerCase()) ||
+          note.transcribedText.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    if (isSort) {
+      updatedNotes.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    }
+
+    setFilteredNotes(updatedNotes);
+  }, [search, isSort]);
+
   const handleDeleteNote = async (noteId) => {
     try {
       await deleteNote(noteId);
@@ -58,11 +80,13 @@ export default function NoteInput({ userId }) {
       console.error("Error updating note:", error);
     }
   };
-
+  console.log(search);
+  console.log(isSort);
+  console.log();
   return (
     <>
       <div className="mb-40 flex gap-2 mt-5">
-        {notes?.map((note) => (
+        {(filteredNotes.length > 0 ? filteredNotes : notes)?.map((note) => (
           <NoteCard
             key={note._id}
             note={note}

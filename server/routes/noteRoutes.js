@@ -9,6 +9,7 @@ import {
   editNote,
   uploadNoteImage,
   getNoteImages,
+  deleteImage,
 } from "../controller/notesController.js";
 
 const storage = multer.memoryStorage(); // Store file in memory as a Buffer
@@ -17,6 +18,7 @@ router.get("/getall/:userId", getAllNotes);
 router.get("/getall/images/:noteId", getNoteImages);
 router.post("/create", createNote);
 router.delete("/delete/:id", deleteNote);
+router.delete("/image", deleteImage);
 router.put("/rename/:id", renameNote);
 router.put("/edit/:id", editNote);
 router.post("/upload-image/:noteId", upload.single("image"), uploadNoteImage);
