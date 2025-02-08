@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Sidebar from "../component/SIdebar";
+import Sidebar from "../component/Sidebar";
 import { IoMdSearch } from "react-icons/io";
 import { MdOutlineSort } from "react-icons/md";
 import NoteInput from "../component/NoteInput";
