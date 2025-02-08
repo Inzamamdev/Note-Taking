@@ -93,49 +93,52 @@ export default function NoteInput({ userId, search, isSort, isFavourite }) {
 
   return (
     <>
-      <div className="h-[33rem] flex flex-wrap gap-2 mt-5">
-        {(filteredNotes.length > 0 ? filteredNotes : notes)?.map((note) => (
-          <NoteCard
-            key={note._id}
-            note={note}
-            onDelete={handleDeleteNote}
-            onRename={handleRenameNote}
-            setNotes={setNotes}
-            notes={notes}
-          />
-        ))}
-      </div>
-      <div className="w-full max-w-3xl mx-auto ">
-        <div className="flex items-center p-2 rounded-4xl shadow-md border">
-          <button className="p-2">
-            <span role="img" aria-label="write">
-              <HiMiniPencil />
-            </span>
-          </button>
-          <button className="p-2">
-            <span role="img" aria-label="image">
-              <BsImageFill />
-            </span>
-          </button>
-          <input
-            type="text"
-            placeholder="Enter Note"
-            className="flex-1 p-2 mx-3 border-none outline-none"
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSubmit();
-              }
-            }}
-          />
-          <div onClick={handleRecording}>
-            <RecordControls isRecording={isRecording} />
-          </div>
+      <div className="flex flex-col gap-40">
+        {" "}
+        <div className=" flex flex-wrap gap-2 mt-5">
+          {(filteredNotes.length > 0 ? filteredNotes : notes)?.map((note) => (
+            <NoteCard
+              key={note._id}
+              note={note}
+              onDelete={handleDeleteNote}
+              onRename={handleRenameNote}
+              setNotes={setNotes}
+              notes={notes}
+            />
+          ))}
         </div>
-        {speechError && (
-          <p className="text-red-500 text-sm mt-2">{speechError}</p>
-        )}
+        <div className="w-full max-w-3xl mx-auto ">
+          <div className="flex items-center p-2 rounded-4xl shadow-md border">
+            <button className="p-2">
+              <span role="img" aria-label="write">
+                <HiMiniPencil />
+              </span>
+            </button>
+            <button className="p-2">
+              <span role="img" aria-label="image">
+                <BsImageFill />
+              </span>
+            </button>
+            <input
+              type="text"
+              placeholder="Enter Note"
+              className="flex-1 p-2 mx-3 border-none outline-none"
+              onChange={(e) => setInput(e.target.value)}
+              value={input}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSubmit();
+                }
+              }}
+            />
+            <div onClick={handleRecording}>
+              <RecordControls isRecording={isRecording} />
+            </div>
+          </div>
+          {speechError && (
+            <p className="text-red-500 text-sm mt-2">{speechError}</p>
+          )}
+        </div>
       </div>
     </>
   );
