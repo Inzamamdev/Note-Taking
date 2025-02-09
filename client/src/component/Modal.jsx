@@ -48,7 +48,7 @@ export default function Modal({
   const toggleFavorite = async (noteId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/notes/favourite/${noteId}`,
+        `${import.meta.env.VITE_API_URL}/api/notes/favourite/${noteId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
