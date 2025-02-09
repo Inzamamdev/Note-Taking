@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173", // Allow requests only from localhost:5173
+  origin: "https://x4ps5x-5173.csb.app", // Allow requests only from localhost:5173
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // Allow cookies if needed
