@@ -93,7 +93,7 @@ export default function NoteInput({ userId, search, isSort, isFavourite }) {
 
   return (
     <>
-      <div className="flex flex-col gap-40">
+      <div className="h-[38rem] flex flex-col  justify-between">
         {" "}
         <div className=" flex flex-wrap gap-2 mt-5">
           {(filteredNotes.length > 0 ? filteredNotes : notes)?.map((note) => (
@@ -107,7 +107,7 @@ export default function NoteInput({ userId, search, isSort, isFavourite }) {
             />
           ))}
         </div>
-        <div className="w-full max-w-3xl mx-auto ">
+        <div className=" w-full max-w-3xl mx-auto ">
           <div className="flex items-center p-2 rounded-4xl shadow-md border">
             <button className="p-2">
               <span role="img" aria-label="write">
