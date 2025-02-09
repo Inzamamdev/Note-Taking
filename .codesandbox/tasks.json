@@ -18,11 +18,6 @@
       "command": "cd server && npm run dev",
       "runAtStart": true
     },
-    "cd client && npm install": {
-      "name": "cd client && npm install",
-      "command": "cd client && npm run dev",
-      "runAtStart": true
-    },
     "c": {
       "name": "c",
       "command": "cd client && npm run dev",
