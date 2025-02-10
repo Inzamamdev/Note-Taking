@@ -2,7 +2,6 @@ import Note from "../models/Note.js";
 import { generateHeading } from "../utils/generateHeading.js";
 import cloudinary from "../config/cloudinaryConfig.js";
 export const getAllNotes = async (req, res) => {
-  console.log(req.params);
   const { userId } = req.params;
   try {
     const notes = await Note.find({ userId });
@@ -14,7 +13,6 @@ export const getAllNotes = async (req, res) => {
 
 export const createNote = async (req, res) => {
   const { transcribedText, userId } = req.body;
-  console.log(req.body);
   const heading = await generateHeading(transcribedText);
   const newNote = new Note({
     heading,
@@ -133,13 +131,10 @@ export const deleteImage = async (req, res) => {
       return res.status(400).json({ error: "Missing noteId or imageUrl" });
     }
 
-    // Extract public_id from Cloudinary image URL
     const publicId = imageUrl.split("/").pop().split(".")[0];
 
-    // Delete image from Cloudinary
     await cloudinary.uploader.destroy(publicId);
 
-    // Remove image from MongoDB
     const updatedNote = await Note.findByIdAndUpdate(
       noteId,
       { $pull: { images: imageUrl } }, // Remove image URL from MongoDB

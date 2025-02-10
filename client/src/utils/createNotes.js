@@ -1,6 +1,5 @@
 export const createNotes = async (transcribedText, userId) => {
   try {
-    console.log("createNotes");
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/notes/create`,
       {

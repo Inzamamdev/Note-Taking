@@ -57,7 +57,7 @@ export default function Modal({
 
       if (!response.ok) throw new Error("Failed to update favorite");
       const updateFavourite = await response.json();
-      console.log("favourite", updateFavourite.favourite);
+
       setNotes(
         notes.map((note) =>
           note._id === noteId
@@ -65,7 +65,6 @@ export default function Modal({
             : note
         )
       );
-      console.log(response.message);
     } catch (error) {
       console.error("Error toggling favorite:", error);
     }

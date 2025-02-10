@@ -13,7 +13,7 @@ import {
   setFavourite,
 } from "../controller/notesController.js";
 
-const storage = multer.memoryStorage(); // Store file in memory as a Buffer
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 router.get("/getall/:userId", getAllNotes);
 router.get("/getall/images/:noteId", getNoteImages);

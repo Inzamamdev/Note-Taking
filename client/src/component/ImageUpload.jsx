@@ -73,7 +73,6 @@ export default function ImageUpload({ noteId, note, setNotes }) {
             : note
         )
       );
-      console.log("Image deleted successfully");
     } catch (error) {
       console.error("Error deleting image:", error);
     }

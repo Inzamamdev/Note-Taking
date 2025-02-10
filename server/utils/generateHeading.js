@@ -9,6 +9,6 @@ export const generateHeading = async (transcribedText) => {
   const result = await model.generateContent(
     `${process.env.BASE_PROMPT}\n\ntranscribedText:${transcribedText}`
   );
-  console.log(result.response.text());
+
   return result.response.text().replace(/\n/g, "").trim();
 };
