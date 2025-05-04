@@ -41,17 +41,15 @@ export default function Login() {
       );
 
       if (!response.ok) {
-        // If the response is not successful, throw an error
         const errorData = await response.json();
         throw new Error(errorData.message || "An error occurred");
       }
 
       const data = await response.json();
-      // Save the token in localStorage or a state management system
+
       localStorage.setItem("token", data.token);
 
-      // Redirect the user after successful login
-      navigate("/dashboard"); // Change this to wherever you want to redirect after login
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "An error occurred");
     } finally {

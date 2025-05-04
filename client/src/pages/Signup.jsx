@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 export default function Signup() {
   const [formData, setFormData] = useState({
     name: "",
@@ -77,7 +77,7 @@ export default function Signup() {
         <button className="w-full bg-blue-500 text-white p-2 rounded">
           Sign Up
         </button>
-        <a href="/login">Already a User</a>
+        <Link to="/login">Already a User</Link>
       </form>
     </div>
   );
