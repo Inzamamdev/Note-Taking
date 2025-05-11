@@ -40,7 +40,7 @@ export default function Dashboard() {
         setIsFavourite={setIsFavourite}
         profile={userData && userData?.name}
       />
-      <div className="mt-8 ml-7 w-full mx-2 h-full">
+      <div className="mt-8 ml-7 w-full mx-2 ">
         <div className="flex items-center  rounded-2xl justify-between gap-4">
           <div className=" relative w-full">
             <IoMdSearch
@@ -67,7 +67,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div className="">
+        <div className="max-h-full h-[600px]">
           <NoteInput
             userId={userData && userData?.id}
             search={search}

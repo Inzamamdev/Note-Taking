@@ -93,7 +93,7 @@ export default function NoteInput({ userId, search, isSort, isFavourite }) {
 
   return (
     <>
-      <div className="h-[38rem] flex flex-col  justify-between">
+      <div className="h-[550px] flex flex-col  justify-between overflow-y-auto">
         {" "}
         <div className=" flex flex-wrap gap-2 mt-5">
           {(filteredNotes.length > 0 ? filteredNotes : notes)?.map((note) => (
@@ -107,38 +107,38 @@ export default function NoteInput({ userId, search, isSort, isFavourite }) {
             />
           ))}
         </div>
-        <div className=" w-full max-w-3xl mx-auto ">
-          <div className="flex items-center p-2 rounded-4xl shadow-md border">
-            <button className="p-2">
-              <span role="img" aria-label="write">
-                <HiMiniPencil />
-              </span>
-            </button>
-            <button className="p-2">
-              <span role="img" aria-label="image">
-                <BsImageFill />
-              </span>
-            </button>
-            <input
-              type="text"
-              placeholder="Enter Note"
-              className="flex-1 p-2 mx-3 border-none outline-none"
-              onChange={(e) => setInput(e.target.value)}
-              value={input}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSubmit();
-                }
-              }}
-            />
-            <div onClick={handleRecording}>
-              <RecordControls isRecording={isRecording} />
-            </div>
+      </div>
+      <div className=" w-full max-w-3xl mx-auto ">
+        <div className="flex items-center p-2 rounded-4xl shadow-md border">
+          <button className="p-2">
+            <span role="img" aria-label="write">
+              <HiMiniPencil />
+            </span>
+          </button>
+          <button className="p-2">
+            <span role="img" aria-label="image">
+              <BsImageFill />
+            </span>
+          </button>
+          <input
+            type="text"
+            placeholder="Enter Note"
+            className="flex-1 p-2 mx-3 border-none outline-none"
+            onChange={(e) => setInput(e.target.value)}
+            value={input}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSubmit();
+              }
+            }}
+          />
+          <div onClick={handleRecording}>
+            <RecordControls isRecording={isRecording} />
           </div>
-          {speechError && (
-            <p className="text-red-500 text-sm mt-2">{speechError}</p>
-          )}
         </div>
+        {speechError && (
+          <p className="text-red-500 text-sm mt-2">{speechError}</p>
+        )}
       </div>
     </>
   );
